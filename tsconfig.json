@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+      "target": "ES6",
+      "module": "commonjs",
+      "strict": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "strictPropertyInitialization": false,
+      "moduleResolution": "node",
+      "outDir": "./dist", // Carpeta donde se generarán los archivos transpilados
+      "rootDir": "./src", // Carpeta raíz de los archivos fuente
+      "esModuleInterop": true, // Interoperabilidad con módulos ES
+      "forceConsistentCasingInFileNames": true, // Fuerza consistencia en el nombre de archivos
+      "skipLibCheck": true, // Omite la verificación de tipos en las bibliotecas
+      "sourceMap": true, // Genera mapas de fuente para debugging
+      "resolveJsonModule": true, // Permite importar archivos JSON
+      "noImplicitAny": true // Evita el uso de `any` implícito
+    },
+    "include": ["src"], // Incluye solo el directorio de código fuente
+    "exclude": ["node_modules", "dist"] // Excluye directorios que no deben ser transpilados
+  }
+  
