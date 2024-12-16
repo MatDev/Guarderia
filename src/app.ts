@@ -12,19 +12,14 @@ import express from 'express';
 import userRoutes from './routes/user.routes';
 import { ApiConstant } from './utils/constants/api.constant';
 import logger from './configuration/winston.config';
+import corsOptions from './configuration/cors.options.config';
+import helmetOptions from './configuration/helmet.options.config';
 
 dotenv.config();
 
-
-
-
- // Rutas de usuarios
-
-
-
 const app = express(); // Instancia de la aplicación
 
-app.use(cors()); // Habilita CORS
+app.use(cors(corsOptions)); // Habilita CORS
 app.use(helmet()); // Añade seguridad básica
 app.use(morgan('combined',{
   stream:{
