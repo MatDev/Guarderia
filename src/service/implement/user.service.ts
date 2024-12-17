@@ -1,9 +1,9 @@
 import { plainToClass, classToPlain, instanceToPlain } from "class-transformer";
-import { UserDto } from "../dto/user.dto";
-import { User } from "../entity/User";
-import { UserRepository } from "../repository/impements/user.implements.repository";
+import { UserDto } from "../../dto/user.dto";
+import { User } from "../../entity/User";
+import { UserRepository } from "../../repository/impements/user.implements.repository";
 import { validate } from "class-validator";
-import { UserServiceInterface } from "./interface/user.interface.service";
+import { UserServiceInterface } from "../interface/user.interface.service";
 
 
 
