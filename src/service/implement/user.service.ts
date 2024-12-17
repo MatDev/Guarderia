@@ -9,8 +9,13 @@ import { UserServiceInterface } from "../interface/user.interface.service";
 
 export class UserService implements UserServiceInterface{
 
-    constructor(private userRepository: UserRepository){
+    private userRepository: UserRepository;
+
+    constructor(userRepository?: UserRepository) {
+    this.userRepository = userRepository || new UserRepository();
     }
+
+  
     async createUser(userDto: UserDto): Promise<UserDto> {
         console.log("creando usuario:",userDto.email);
         //validamos el dto con class-validator
