@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { AppDataSource } from '../configuration/database.config';
 import { UserRepository } from '../repository/impements/user.implements.repository';
-import { UserService } from '../service/user.service';
+import { UserService } from '../service/implement/user.service';
 import { UserController } from '../controllers/user.controller';
 
 // Instanciamos las dependencias necesarias
