@@ -1,27 +1,28 @@
 import { IsEmail, IsEnum, IsNotEmpty, IsString, isString, MinLength } from "class-validator";
 
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { UserRole } from "../utils/enum/user.role";
+import { Token } from "./Token";
 
 @Entity('users')
 export class User{
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    @PrimaryGeneratedColumn('increment')
+    public id: string;
   
     @Column()
     @IsNotEmpty({ message: 'El nombre no puede estar vacío' })
     @IsString ({ message: 'El nombre debe ser una cadena de texto' })
-    name: string;
+    public name: string;
   
     @Column({ unique: true })
     @IsNotEmpty({ message: 'El email no puede estar vacío' })
     @IsEmail({}, { message: 'Formato de email inválido' })
-    email: string;
+    public email: string;
   
     @Column()
     @IsNotEmpty({ message: 'La contraseña no puede estar vacía' })
     @MinLength(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
-    password: string;
+    public password: string;
   
     @Column({
       type: 'enum',
@@ -29,12 +30,17 @@ export class User{
       
     })
     @IsEnum(UserRole, { message: 'Rol de usuario inválido' })
-    role: UserRole;
+    public role: UserRole;
   
     @Column({ type:'boolean' ,default: true })
-    isActive: boolean;
+    public  isActive: boolean;
   
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-    createdAt: Date;
+    public  createdAt: Date;
+    
+    @OneToMany(() => Token, token => token.usuario)
+    public tokens: Token[];
+    
+
 }
 
