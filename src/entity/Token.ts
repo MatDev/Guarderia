@@ -17,10 +17,10 @@ export class Token {
   })
   public tokenType: TokenType;
 
-  @Column({ default: false })
+  @Column()
   public revocado: boolean;
 
-  @Column({ default: false })
+  @Column()
   public expirado: boolean;
 
   @ManyToOne(() => User, usuario => usuario.tokens, { eager: false })
