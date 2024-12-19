@@ -1,8 +1,10 @@
-import { DataSource, Repository } from "typeorm";
+import{ Repository } from "typeorm";
 import { User } from "../../entity/User";
 import { UserInterfaceRepository } from "../interface/user.interface.repository";
 import { NotFoundError } from "../../exeption/not.found.error";
 import { AppDataSource } from "../../configuration/database.config";
+import { ValidationError } from "../../exeption/validation.error";
+
 
 export class UserRepository implements UserInterfaceRepository{
     private repository:Repository<User>;
@@ -15,26 +17,41 @@ export class UserRepository implements UserInterfaceRepository{
     }
     public async create(user: Partial<User>): Promise<User> {
         try{
+            const userExist=await this.repository.findOne({where:{email:user.email}});
+
+            if(userExist){
+                console.error('User already exists');
+                throw new ValidationError('User already exists');
+            }
             const createUser=this.repository.create(user);
-            return await this.repository.save(createUser);
+            const userSave =await this.repository.save(createUser);
+            console.log('User created successfully'+ userSave);
+            return userSave;
         }catch(error){
-            console.error(error);
-            throw new Error('Error to create user');
+            console.error('Error en el repositorio:',error);
+            throw error;
         }
     }
     public async findAll(page: number = 1, limit: number =10): Promise<User[]> {
         const skip=(page-1)*limit;
-        return this.repository.find({
+        console.info('Buscando usuarios en la base de datos');
+
+        const users= await this.repository.find({
             skip,
             take:limit,
             order:{
                 createdAt:'DESC'
             }
-        })
+        });
+        console.info('Se encontraron' + users.length + 'usuarios');
+
+        return users
         
     }
     public async findById(id: string): Promise<User | null> {
-        return this.repository.findOne({where:{id}});
+        console.info('Buscando usuario con id:', id);
+        const user=await this.repository.findOne({where:{id}});
+        return user;
     }
     public async delete(id: string): Promise<void> {
         const user=await this.repository.findOne({where:{id}});
