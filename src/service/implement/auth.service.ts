@@ -86,8 +86,7 @@ export class AuthService implements AuthServiceInterface {
             this.saveUserToken(user, refreshToken, TokenType.REFRESH);
             this.writeAuthResponse(response, this.buildAuthResponse(accessToken, refreshToken));
         }
-        console.error('Refresh token is invalid');
-        throw new AuthenticationError('Refresh token is invalid');
+        
     }
 
     private writeAuthResponse(response: Response, authResponse: AutheticationResponseDto): void {
@@ -108,10 +107,15 @@ export class AuthService implements AuthServiceInterface {
         if (validUserTokens.length == 0) {
             return;
         }
+        console.log('se encontraron' + validUserTokens.length + 'tokens validos');
+        
         for (const token of validUserTokens) {
+            console.info('Revoking token:', token.accessToken, token.revocado , token.expirado);
             token.revocado = true;
             token.expirado = true;
+            console.info('Token revoked:', token.accessToken, token.revocado , token.expirado);
         }
+
         await this.tokenRepository.saveAllTokens(validUserTokens);
     }
 
