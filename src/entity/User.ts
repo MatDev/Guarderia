@@ -11,7 +11,7 @@ export class User{
   
     @Column()
     @IsNotEmpty({ message: 'El nombre no puede estar vacío' })
-    @IsString ({ message: 'El nombre debe ser una cadena de texto' })
+    @IsString({ message: 'El nombre debe ser una cadena de texto' })
     public name: string;
   
     @Column({ unique: true })
