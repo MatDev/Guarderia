@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import e, { Request, Response } from 'express';
 import { UserService } from '../service/implement/user.service';
 import { UserDto } from '../dto/user.dto';
 
@@ -36,9 +36,9 @@ export class UserController {
       const createdUser = await this.userService.createUser(userDto);
       res.status(201).json(createdUser);
     } catch (error) {
-      console.error('Error creating user:', error);
+      console.error('Error controller:', error);
       res.status(400).json({ 
-        message: 'Error creating user', 
+        message: error instanceof Error ? error.message : 'Error creating user',
         error: error instanceof Error ? error.message : 'Unknown error' 
       });
     }
