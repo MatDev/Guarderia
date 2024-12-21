@@ -4,8 +4,8 @@ import { TokenType } from "../utils/enum/token.type";
 
 @Entity()
 export class Token {
-  @PrimaryGeneratedColumn('increment')
-  public id: number;
+  @PrimaryGeneratedColumn('uuid')
+  public id: string;
 
   @Column({ unique: true, name: 'access_token' })
   public accessToken: string;
