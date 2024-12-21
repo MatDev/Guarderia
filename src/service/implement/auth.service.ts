@@ -39,9 +39,9 @@ export class AuthService implements AuthServiceInterface {
         }
         const accessToken = this.jwtService.generateAccessToken(user);
         const refreshToken = this.jwtService.generateRefreshToken(user);
-        this.revokeAllUserTokens(user);
-        this.saveUserToken(user, accessToken, TokenType.BEARER);
-        this.saveUserToken(user, refreshToken, TokenType.REFRESH);
+        await this.revokeAllUserTokens(user);
+        await this.saveUserToken(user, accessToken, TokenType.BEARER);
+        await this.saveUserToken(user, refreshToken, TokenType.REFRESH);
         return this.buildAuthResponse(accessToken, refreshToken);
 
     }
@@ -105,9 +105,10 @@ export class AuthService implements AuthServiceInterface {
     private async revokeAllUserTokens(user: User): Promise<void> {
         var validUserTokens = await this.tokenRepository.findAllTokenValid(user);
         if (validUserTokens.length == 0) {
+            console.info('No valid tokens found');
             return;
         }
-        console.log('se encontraron' + validUserTokens.length + 'tokens validos');
+        console.info('se encontraron' + validUserTokens.length + 'tokens validos');
         
         for (const token of validUserTokens) {
             console.info('Revoking token:', token.accessToken, token.revocado , token.expirado);
