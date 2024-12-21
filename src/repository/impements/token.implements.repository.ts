@@ -13,7 +13,7 @@ export class TokenRepository implements TokenInterfaceRepository {
         this.repository = datasource.getRepository(Token);
     }
     public async findByAccesToken(accessToken: string): Promise<Token> {
-        return this.repository.findOne({ where: { accessToken: accessToken } }).then(token => {
+        return this.repository.findOne({ where: { accessToken: accessToken }, relations:['usuario'] }).then(token => {
             if (!token) {
                 throw new NotFoundError('Token', accessToken);
             }
