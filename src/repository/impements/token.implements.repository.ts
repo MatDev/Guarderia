@@ -22,17 +22,22 @@ export class TokenRepository implements TokenInterfaceRepository {
         
     }
     public async findAllTokenValid(user:User): Promise<Token[]> {
-        return this.repository.find({
+        
+
+        const tokenValids= await this.repository.find({
             where: {
-                usuario: user,
+                usuario: {id:user.id},
                 revocado: false,
                 expirado: false
             }
         });
+        console.info('Tokens validos encontrados:', tokenValids.length);
+
+        return tokenValids;
     }
 
     public async saveAllTokens(tokens: Token[]): Promise<Token[]> {
-        return this.repository.save(tokens);
+        return await this.repository.save(tokens);
     }
     
 
