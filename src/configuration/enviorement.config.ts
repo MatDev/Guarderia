@@ -9,5 +9,12 @@ export const ENV ={
     USERNAME: process.env.DB_USER || 'postgres',
     PASSWORD: process.env.DB_PASSWORD || 'HOLA',
     NAME: process.env.DB_NAME || 'myapp'
+  },
+  JWT:{
+      SECRET : process.env.jWT_SECRET || 'secret',
+      EXPIRE:{
+        JWT: process.env.JWT_EXPIRE || '1h',
+        REFRESH: process.env.REFRESH_JWT_EXPIRE|| '1d'
+      }
   }
 }

@@ -1,22 +1,25 @@
-
-
-
-import { Request, Response } from 'express';
-import { UserService } from '../service/user.service';
+import e, { Request, Response } from 'express';
+import { UserService } from '../service/implement/user.service';
 import { UserDto } from '../dto/user.dto';
 
 
 
-
-
-
 export class UserController {
-  
-  
+  // esta propiedad es privada y solo se puede acceder a ella desde la clase
   private userService: UserService;
+
+  /*
+  El constructor de la clase UserController recibe un parámetro opcional de tipo UserService.
+  para poder ser llamado sin necesidad de pasarle un parámetro, se le asigna un valor por defecto.
+  */
   
-  constructor(userService: UserService) {
-    this.userService = userService;
+  constructor(userService?: UserService) {
+    /*
+    Asignacion de cortocircuito: si no se proporciona un parámetro userService, se crea una nueva instancia de UserService.
+    Se usa este enfoque para que la clase UserController pueda funcionar sin necesidad de pasarle un parámetro.
+    ademas de que facilita las pruebas unitarias.
+    */
+    this.userService = userService || new UserService();
   }
 
 
@@ -33,9 +36,9 @@ export class UserController {
       const createdUser = await this.userService.createUser(userDto);
       res.status(201).json(createdUser);
     } catch (error) {
-      console.error('Error creating user:', error);
+      console.error('Error controller:', error);
       res.status(400).json({ 
-        message: 'Error creating user', 
+        message: error instanceof Error ? error.message : 'Error creating user',
         error: error instanceof Error ? error.message : 'Unknown error' 
       });
     }

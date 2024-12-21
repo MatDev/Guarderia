@@ -1,23 +1,29 @@
 import { plainToClass, classToPlain, instanceToPlain } from "class-transformer";
-import { UserDto } from "../dto/user.dto";
-import { User } from "../entity/User";
-import { UserRepository } from "../repository/impements/user.implements.repository";
+import { UserDto } from "../../dto/user.dto";
+import { User } from "../../entity/User";
+import { UserRepository } from "../../repository/impements/user.implements.repository";
 import { validate } from "class-validator";
-import { UserServiceInterface } from "./interface/user.interface.service";
+import { UserServiceInterface } from "../interface/user.interface.service";
+import { ValidationError } from "../../exeption/validation.error";
 
 
 
 export class UserService implements UserServiceInterface{
 
-    constructor(private userRepository: UserRepository){
+    private userRepository: UserRepository;
+
+    constructor(userRepository?: UserRepository) {
+    this.userRepository = userRepository || new UserRepository();
     }
+
+  
     async createUser(userDto: UserDto): Promise<UserDto> {
         console.log("creando usuario:",userDto.email);
         //validamos el dto con class-validator
         const validationsErrors=await validate(userDto);
         if(validationsErrors.length>0){
             console.error('Validation Error:',validationsErrors);
-            throw new Error('Validation Error');
+            throw new ValidationError('Error de validacion  la propiedad: ' + validationsErrors[0].property );
         }
         const user=this.dtoToEntity(userDto, new User());
         const userSave=await this.userRepository.create(user);
