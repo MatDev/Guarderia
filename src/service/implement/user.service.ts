@@ -5,6 +5,7 @@ import { UserRepository } from "../../repository/impements/user.implements.repos
 import { validate } from "class-validator";
 import { UserServiceInterface } from "../interface/user.interface.service";
 import { ValidationError } from "../../exeption/validation.error";
+import { PasswordEncoder } from "../../utils/password.encoder";
 
 
 
@@ -25,6 +26,9 @@ export class UserService implements UserServiceInterface{
             console.error('Validation Error:',validationsErrors);
             throw new ValidationError('Error de validacion  la propiedad: ' + validationsErrors[0].property );
         }
+        // se hashea la contraseña
+        const hashedPassword= await PasswordEncoder.encodePassword(userDto.password);
+        userDto.password=hashedPassword;
         const user=this.dtoToEntity(userDto, new User());
         const userSave=await this.userRepository.create(user);
         console.info('Usuario creado:',userSave.id);
