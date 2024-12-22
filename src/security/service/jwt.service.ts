@@ -3,24 +3,27 @@ import { ENV } from '../../configuration/enviorement.config';
 import { User } from '../../entity/User';
 
 export class JwtService {
-    private static instance: JwtService;
+    private jwtSecret: string;
+    private jwtExpireAccess: string;
+    private jwtExpireRefresh: string;
 
-    private constructor() { }
-
-    public static getInstance(): JwtService {
-        if (!JwtService.instance) {
-            JwtService.instance = new JwtService();
-        }
-        return JwtService.instance;
+    constructor({ jwtSecret, jwtExpireAccess, jwtExpireRefresh }: { 
+        jwtSecret: string; 
+        jwtExpireAccess: string; 
+        jwtExpireRefresh: string 
+    }) {
+        this.jwtSecret = jwtSecret;
+        this.jwtExpireAccess = jwtExpireAccess;
+        this.jwtExpireRefresh = jwtExpireRefresh;
     }
-
+   
     public generateAccessToken(user: User): string {
         const payload = {
             id: user.id,
             email: user.email,
             role: user.role
         };
-        return sign(payload, ENV.JWT.SECRET, { expiresIn: ENV.JWT.EXPIRE.JWT });
+        return sign(payload, this.jwtSecret, { expiresIn: this.jwtExpireAccess });
     }
 
     public generateRefreshToken(user: User): string {
@@ -29,11 +32,11 @@ export class JwtService {
             email: user.email,
            
         };
-        return sign(payload, ENV.JWT.SECRET, { expiresIn: ENV.JWT.EXPIRE.REFRESH });
+        return sign(payload, this.jwtSecret, { expiresIn: this.jwtExpireRefresh });
     }
 
     public verify(token: string): any {
-        return verify(token, ENV.JWT.SECRET);
+        return verify(token, this.jwtSecret);
     }
 
     public decode(token: string): any {
