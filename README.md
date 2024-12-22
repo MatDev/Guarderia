@@ -118,6 +118,9 @@ La arquitectura limpia y modular es un enfoque de diseño de software que promue
 - **Reutilización**: Componentes modulares reutilizables en otros proyectos.
 - **Pruebas**: Simplifica la creación de pruebas unitarias e integración.
 
+### 1.3 Inyección de Dependencias con Awilix
+
+Para gestionar las dependencias en este proyecto, utilizamos Awilix, un contenedor de inyección de dependencias para JavaScript y TypeScript. Awilix permite definir y resolver dependencias de manera sencilla y eficiente, mejorando la mantenibilidad y escalabilidad del código.
 
 ### 2. Seguridad y autenticación
 
@@ -126,6 +129,10 @@ Se implementaron varias medidas de seguridad para proteger la aplicación y los 
 ### 2.1. Autenticación con JWT
 
 JSON Web Tokens (JWT) se utilizan para autenticar a los usuarios de manera segura. Los JWT son tokens compactos y seguros que se pueden utilizar para verificar la identidad de un usuario y autorizar el acceso a recursos protegidos.
+
+### 2.2. Encriptacion de contraseñas
+Se utiliza bcrypt para la encriptación de contraseñas en este proyecto. bcrypt es una biblioteca de encriptación que permite asegurar las contraseñas antes de almacenarlas en la base de datos. La encriptación de contraseñas es fundamental para proteger la información sensible de los usuarios
+
 
 - **Token de Acceso**: Un token de corta duración que se utiliza para acceder a los recursos protegidos.
 - **Token de Refresco**: Un token de larga duración que se utiliza para obtener un nuevo token de acceso cuando este expira.
