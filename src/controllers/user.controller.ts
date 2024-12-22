@@ -5,21 +5,12 @@ import { UserDto } from '../dto/user.dto';
 
 
 export class UserController {
-  // esta propiedad es privada y solo se puede acceder a ella desde la clase
+ 
   private userService: UserService;
-
-  /*
-  El constructor de la clase UserController recibe un parámetro opcional de tipo UserService.
-  para poder ser llamado sin necesidad de pasarle un parámetro, se le asigna un valor por defecto.
-  */
   
-  constructor(userService?: UserService) {
-    /*
-    Asignacion de cortocircuito: si no se proporciona un parámetro userService, se crea una nueva instancia de UserService.
-    Se usa este enfoque para que la clase UserController pueda funcionar sin necesidad de pasarle un parámetro.
-    ademas de que facilita las pruebas unitarias.
-    */
-    this.userService = userService || new UserService();
+  constructor({userService}:{userService:UserService}){
+
+    this.userService = userService ;
   }
 
 

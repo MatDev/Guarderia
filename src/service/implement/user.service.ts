@@ -13,8 +13,8 @@ export class UserService implements UserServiceInterface{
 
     private userRepository: UserRepository;
 
-    constructor(userRepository?: UserRepository) {
-    this.userRepository = userRepository || new UserRepository();
+    constructor({ userRepository }: { userRepository: UserRepository }) {
+        this.userRepository = userRepository;
     }
 
   

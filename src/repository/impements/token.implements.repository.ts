@@ -3,15 +3,16 @@ import { Token } from "../../entity/Token";
 import { TokenInterfaceRepository } from "../interface/token.interface.repository";
 import { NotFoundError } from "../../exeption/not.found.error";
 import { User } from "../../entity/User";
+import { AppDataSource } from "../../configuration/database.config";
 
 
 
 
 export class TokenRepository implements TokenInterfaceRepository {
     private repository: Repository<Token>;
-    constructor(datasource: DataSource) {
-        this.repository = datasource.getRepository(Token);
-    }
+    constructor({ dataSource }: { dataSource: DataSource }) {
+        this.repository = dataSource.getRepository(Token);
+      }
     public async findByAccesToken(accessToken: string): Promise<Token> {
         return this.repository.findOne({ where: { accessToken: accessToken }, relations:['usuario'] }).then(token => {
             if (!token) {

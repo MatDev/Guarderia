@@ -3,18 +3,19 @@ import { UserController } from '../controllers/user.controller';
 import { AuthenticationMiddleware } from '../security/middleware/authentication.middleware';
 import { authorizeRoles } from '../security/middleware/role.middleware';
 import { UserRole } from '../utils/enum/user.role';
+import { makeInvoker } from 'awilix-express';
 
 // Instanciamos las dependencias necesarias
 
-const userController = new UserController();
+const userController = makeInvoker(UserController);
 // Configuramos las rutas
 const router = Router();
 
-router.post('/', AuthenticationMiddleware, authorizeRoles([UserRole.PARVULARIA]), (req, res) => userController.createUser(req, res));
-router.get('/', (req, res) => userController.getAllUsers(req, res));
-router.get('/:id',AuthenticationMiddleware, authorizeRoles([UserRole.PARVULARIA]), (req, res) => userController.getUserById(req, res));
-router.put('/:id', (req, res) => userController.updateUser(req, res));
-router.delete('/:id', (req, res) => userController.deleteUser(req, res));
+router.post('/', AuthenticationMiddleware, authorizeRoles([UserRole.PARVULARIA]), (req, res) =>userController('createUser')(req, res));
+router.get('/',  (req, res) =>userController('getAllUsers')(req, res));
+router.get('/:id',AuthenticationMiddleware, authorizeRoles([UserRole.PARVULARIA]), (req, res) => userController('getUserById')(req, res));
+router.put('/:id', (req, res) => userController('updateUser')(req, res));
+router.delete('/:id', (req, res) => userController('deleteUser')(req, res));
 
 export default router;
 

@@ -18,13 +18,14 @@ import { PasswordEncoder } from '../../utils/password.encoder';
 export class AuthService implements AuthServiceInterface {
     private userRepository:UserRepository;
     private jwtService:JwtService;
-    private tokenRepository:TokenRepository;
+    private tokenRepository: TokenRepository;
+    
     
 
-    constructor(userRepository?:UserRepository, jwtService?:JwtService, tokenRepository?:TokenRepository){
-        this.userRepository=userRepository || new UserRepository(AppDataSource);
-        this.jwtService=jwtService || JwtService.getInstance();
-        this.tokenRepository=tokenRepository || new TokenRepository(AppDataSource);
+    constructor({ userRepository, jwtService,tokenRepository }: { userRepository: UserRepository, jwtService: JwtService, tokenRepository: TokenRepository }) {
+        this.userRepository = userRepository;
+        this.jwtService = jwtService;
+        
     }
 
     public async login(loginDto: LoginDto): Promise<AutheticationResponseDto | null> {

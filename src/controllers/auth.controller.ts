@@ -4,8 +4,8 @@ import { Request, Response } from "express";
 export class AuthController {
     private authService: AuthService;
 
-    constructor(authService?: AuthService) {
-        this.authService = authService || new AuthService();
+    constructor({authService}:{authService: AuthService}) {
+        this.authService = authService ;
     }
     public async login(req: Request, res: Response) {
         try {

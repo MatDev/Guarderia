@@ -1,4 +1,4 @@
-import{ Repository } from "typeorm";
+import{ DataSource, Repository } from "typeorm";
 import { User } from "../../entity/User";
 import { UserInterfaceRepository } from "../interface/user.interface.repository";
 import { NotFoundError } from "../../exeption/not.found.error";
@@ -7,13 +7,12 @@ import { ValidationError } from "../../exeption/validation.error";
 
 
 export class UserRepository implements UserInterfaceRepository{
+    
+
     private repository:Repository<User>;
 
-    constructor (datasouce?: typeof AppDataSource){
-         // Si no se proporciona una fuente de datos, utiliza AppDataSource por defecto
-       const dataSource=datasouce || AppDataSource;
-         // Obtiene el repositorio de la entidad User a partir de la fuente de datos
-       this.repository=dataSource.getRepository(User);
+    constructor({dataSource}: { dataSource: typeof DataSource }) {
+        this.repository=AppDataSource.getRepository(User);
     }
     public async create(user: Partial<User>): Promise<User> {
         try{
