@@ -5,9 +5,10 @@ import { JwtService } from "../service/jwt.service";
 import { AuthConstant } from "../../utils/constants/auth.constant";
 import { AuthenticationError } from "../../exeption/authentication.error";
 import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
+import { makeInvoker } from "awilix-express";
 
-const jwtService= JwtService.getInstance();
-const tokenRepository= new TokenRepository(AppDataSource);
+const jwtService= makeInvoker(JwtService);
+const tokenRepository= makeInvoker(TokenRepository)
 export const AuthenticationMiddleware = async (req: Request, res: Response, next: NextFunction) => {
 console.info('AuthenticationMiddleware');
     try {
@@ -19,7 +20,7 @@ console.info('AuthenticationMiddleware');
     }
     const token = extractTokenFromHeader(authorizationHeader as string);
     try {
-    const userId= jwtService.extractUserId(token);
+    const userId= jwtService('extractUserId')(token);
     } catch (error) {
         if (error instanceof TokenExpiredError) {
         console.error('Token exprado:', error);
@@ -32,7 +33,7 @@ console.info('AuthenticationMiddleware');
         throw new AuthenticationError('Error al verificar token');
         }
     }
-    const tokenEntity = await tokenRepository.findByAccesToken(token);
+    const tokenEntity = await tokenRepository('findByAccesToken')(token);
 
     if (tokenEntity.expirado || tokenEntity.revocado) {
         console.error('Token invalido');

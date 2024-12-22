@@ -4,8 +4,9 @@ import { AuthorizationError } from "../../exeption/authorization.error";
 import { UserRepository } from "../../repository/impements/user.implements.repository";
 import { User } from "../../entity/User";
 import { NotFoundError } from "../../exeption/not.found.error";
+import { makeInvoker } from "awilix-express";
 
-const userRepository= new UserRepository();
+const userRepository= makeInvoker(UserRepository);
 export const authorizeRoles=(userRoles:UserRole[])=>{
    return async (req:Request, res:Response,next:NextFunction)=>{
     console.info('authorizeRoles');
@@ -15,7 +16,7 @@ export const authorizeRoles=(userRoles:UserRole[])=>{
             throw new AuthorizationError('User ID not found in request');
         }
 
-        const user = await userRepository.findById(userId);
+        const user = await userRepository('findById')(userId) ;
         if (!user) {
             throw new NotFoundError('User not found');
         }
