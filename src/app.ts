@@ -15,9 +15,10 @@ import { ApiConstant } from './utils/constants/api.constant';
 import logger from './configuration/winston.config';
 import corsOptions from './configuration/cors.options.config';
 import helmetOptions from './configuration/helmet.options.config';
+import {scopePerRequest} from 'awilix-express';
+import container from './configuration/awilix.config';
 
-dotenv.config();
-
+dotenv.config(); // Carga las variables de entorn
 const app = express(); // Instancia de la aplicación
 
 app.use(cors(corsOptions)); // Habilita CORS
@@ -29,7 +30,8 @@ app.use(morgan('combined',{
 })); // Logger HTTP
 app.use(json()); // Soporte para JSON
 app.use(urlencoded({ extended: true }));  // Manejo de formularios codificados
-
+//inyeccion de dependencias
+app.use(scopePerRequest(container));
 
 // Rutas
 app.use(ApiConstant.API_USER, userRoutes); // Prefijo para rutas de usuarios
