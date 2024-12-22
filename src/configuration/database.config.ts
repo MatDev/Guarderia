@@ -1,5 +1,7 @@
 import { DataSource } from 'typeorm';
 import {ENV} from './enviorement.config';
+import { User } from '../entity/User';
+import { Token } from '../entity/Token';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -11,6 +13,6 @@ export const AppDataSource = new DataSource({
   synchronize: true,
   logging: false,
   /* estoy en modod debug por lo que se cambia la configuracion a js  */
-  entities: ['src/entity/**/*.ts'],
+  entities: [User,Token],
   migrations: ['src/migrations/**/*.ts']
 });
