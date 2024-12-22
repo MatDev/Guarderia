@@ -12,6 +12,7 @@ import { TokenRepository } from '../../repository/impements/token.implements.rep
 import { Token } from '../../entity/Token';
 import { TokenType } from '../../utils/enum/token.type';
 import { AppDataSource } from '../../configuration/database.config';
+import { PasswordEncoder } from '../../utils/password.encoder';
 
 
 export class AuthService implements AuthServiceInterface {
@@ -33,7 +34,7 @@ export class AuthService implements AuthServiceInterface {
             console.error('User not found');
             throw new NotFoundError('User', loginDto.email);
         }
-        if (user.password !== loginDto.password) {
+        if (!await this.isMatchPassword(loginDto.password, user.password)) {
             console.error('Password incorrect');
             throw new AuthenticationError('Password incorrect');
         }
@@ -137,6 +138,10 @@ export class AuthService implements AuthServiceInterface {
 
 
 
+    }
+
+    private async isMatchPassword(password: string, userPassword: string): Promise<boolean> {
+        return await PasswordEncoder.comparePassword(password, userPassword);
     }
 
 
