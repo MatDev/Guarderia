@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-      "target": "ES6",
+      "target": "es6",
       "module": "commonjs",
       "strict": true,
       "experimentalDecorators": true,
@@ -16,7 +16,7 @@
       "resolveJsonModule": true, // Permite importar archivos JSON
       "noImplicitAny": true // Evita el uso de `any` implícito
     },
-    "include": ["src"], // Incluye solo el directorio de código fuente
+    "include": ["src/**/*"], // Incluye solo el directorio de código fuente
     "exclude": ["node_modules", "dist"] // Excluye directorios que no deben ser transpilados
   }
   
