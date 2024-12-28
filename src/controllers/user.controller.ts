@@ -1,22 +1,31 @@
 import e, { Request, Response } from 'express';
 import { UserService } from '../service/implement/user.service';
 import { UserDto } from '../dto/user.dto';
+import { controllerHandler } from '../utils/controller.handler';
 
 
 
 export class UserController {
  
   private userService: UserService;
-  
   constructor({userService}:{userService:UserService}){
-
     this.userService = userService ;
   }
 
+  public createUser=controllerHandler(async(req:Request)=>{
+    const userDto = new UserDto();
+    userDto.name = req.body.name;
+    userDto.email = req.body.email;
+    userDto.password = req.body.password;
+    userDto.role = req.body.role;
+
+    return await this.userService.createUser(userDto);
+  },201);
 
 
 
-   async createUser(req: Request, res: Response): Promise<void> {
+
+   /*async createUser(req: Request, res: Response): Promise<void> {
     try {
       const userDto = new UserDto();
       userDto.name = req.body.name;
@@ -34,6 +43,7 @@ export class UserController {
       });
     }
   }
+  */
 
    async getAllUsers(req: Request, res: Response): Promise<void> {
     try {
