@@ -8,28 +8,26 @@ import { AuthController } from '../controllers/auth.controller';
 import { JwtService } from '../security/service/jwt.service';
 import { ENV } from './enviorement.config';
 import { AppDataSource } from './database.config';
-import { token } from 'morgan';
+
 
 const container = createContainer();
 
 container.register({
-  userService: asClass(UserService).scoped(),
-  authService: asClass(AuthService).scoped(),
-  
-  // configuracion del jwtService
+  userService: asClass(UserService).scoped(), // Refactor listo
+  authService: asClass(AuthService).scoped(), // Refacto listo
   
 });
 
 // Controllers
 container.register({
-  userController: asClass(UserController).scoped(),
+  userController: asClass(UserController).scoped(), 
   authController: asClass(AuthController).scoped()
 });
 // Repositories
 container.register({
-  AppDataSource: asValue(AppDataSource),
-  userRepository: asClass(UserRepository).scoped(),
-  tokenRepository: asClass(TokenRepository).scoped()
+  AppDataSource: asValue(AppDataSource), 
+  userRepository: asClass(UserRepository).scoped(), // Refactor listo
+  tokenRepository: asClass(TokenRepository).scoped() // Refactor listo
 });
 
 // JWT
@@ -37,7 +35,7 @@ container.register({
   jwtSecret: asValue(ENV.JWT.SECRET),
   jwtExpireAcces: asValue(ENV.JWT.EXPIRE.JWT),
   jwtExpireRefresh: asValue(ENV.JWT.EXPIRE.REFRESH),
-  jwtService: asClass(JwtService).singleton()
+  jwtService: asClass(JwtService).singleton() // Refactor listo
 });
 
 
