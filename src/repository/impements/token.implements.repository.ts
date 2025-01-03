@@ -3,7 +3,7 @@ import { Token } from "../../entity/Token";
 import { TokenInterfaceRepository } from "../interface/token.interface.repository";
 import { NotFoundError } from "../../exeption/not.found.error";
 import { User } from "../../entity/User";
-import { AppDataSource } from "../../configuration/database.config";
+
 
 
 
